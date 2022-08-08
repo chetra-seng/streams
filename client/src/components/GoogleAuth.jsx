@@ -14,24 +14,22 @@ const GoogleAuth = () => {
         .then(() => {
           const auth = window.gapi.auth2.getAuthInstance();
           setIsSignedIn(auth.isSignedIn.get());
-          auth.isSignedIn.listen(signedIn => {
+          auth.isSignedIn.listen((signedIn) => {
             setIsSignedIn(signedIn);
-          })
+          });
         });
     });
   }, []);
 
   const isSignedHandler = () => {
-    if(isSignedIn === null){
-      return 'Unknown'
+    if (isSignedIn === null) {
+      return "Unknown";
+    } else if (isSignedIn) {
+      return "Signed in";
+    } else {
+      return "Not signed in";
     }
-    else if(isSignedIn){
-      return 'Signed in'
-    }
-    else{
-      return 'Not signed in'
-    }
-  }
+  };
 
   return <div>{isSignedHandler()}</div>;
 };
