@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 
 const GoogleAuth = () => {
   const [isSignedIn, setIsSignedIn] = useState(null);
+  const [auth, setAuth] = useState(null);
   useEffect(() => {
     window.gapi.load("client:auth2", () => {
       window.gapi.client
@@ -12,22 +13,42 @@ const GoogleAuth = () => {
           plugin_name: "streams",
         })
         .then(() => {
-          const auth = window.gapi.auth2.getAuthInstance();
-          setIsSignedIn(auth.isSignedIn.get());
-          auth.isSignedIn.listen((signedIn) => {
+          setAuth(window.gapi.auth2.getAuthInstance());
+          setIsSignedIn(auth?.isSignedIn.get());
+          auth?.isSignedIn.listen((signedIn) => {
             setIsSignedIn(signedIn);
           });
         });
     });
-  }, []);
+  }, [auth]);
 
   const isSignedHandler = () => {
     if (isSignedIn === null) {
-      return "Unknown";
+      return null;
     } else if (isSignedIn) {
-      return "Signed in";
+      return (
+        <button
+          className="ui red google button"
+          onClick={() => {
+            auth.signOut();
+          }}
+        >
+          <i className="google icon" />
+          Sign Out
+        </button>
+      );
     } else {
-      return "Not signed in";
+      return (
+        <button
+          className="ui red google button"
+          onClick={() => {
+            auth.signIn();
+          }}
+        >
+          <i className="google icon" />
+          Sign in with Google
+        </button>
+      );
     }
   };
 
