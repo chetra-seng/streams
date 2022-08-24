@@ -1,7 +1,8 @@
-export const signIn = () => {
+export const signIn = (id: string) => {
     console.log('sign in');
     return {
-        type: 'SIGN_IN'
+        type: 'SIGN_IN',
+        payload: id
     };
 };
 
