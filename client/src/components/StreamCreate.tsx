@@ -1,6 +1,8 @@
 import { stringify } from "querystring";
 import React from "react";
+import { connect } from "react-redux";
 import { reduxForm, Field } from "redux-form";
+import { createStream } from "../actions";
 
 const inputComponent = ({
   input,
@@ -22,8 +24,6 @@ const inputComponent = ({
   );
 };
 
-const handleSubmit = (input: any) => {};
-
 const validateFields = (props: any) => {
   const error = {} as any;
   if (!props.title) {
@@ -38,7 +38,12 @@ const validateFields = (props: any) => {
 
 const StreamCreate = (props: any) => {
   return (
-    <form className="ui form error" onSubmit={props.handleSubmit(handleSubmit)}>
+    <form
+      className="ui form error"
+      onSubmit={props.handleSubmit((input: any) => {
+        props.createStream(input);
+      })}
+    >
       <Field name="title" component={inputComponent} label="Enter title" />
       <Field
         name="description"
@@ -50,7 +55,9 @@ const StreamCreate = (props: any) => {
   );
 };
 
-export default reduxForm({
-  form: "streamCreate",
-  validate: validateFields,
-})(StreamCreate);
+export default connect(null, { createStream })(
+  reduxForm({
+    form: "streamCreate",
+    validate: validateFields,
+  })(StreamCreate)
+);

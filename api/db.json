@@ -1,5 +1,9 @@
 {
-    "streams": [
-        
-    ]
+  "streams": [
+    {
+      "title": "Hello",
+      "description": "This is a post test.",
+      "id": 1
+    }
+  ]
 }

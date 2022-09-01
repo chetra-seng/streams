@@ -1,3 +1,5 @@
+import axios from "../api/stream";
+
 export const signIn = (id: string) => {
     console.log('sign in');
     return {
@@ -12,3 +14,5 @@ export const signOut = () => {
         type: 'SIGN_OUT'
     }
 }
+
+export const createStream = (formValues: any) => async () => axios.post("streams", formValues);
